@@ -1,7 +1,20 @@
+import { TableCell, TableRow } from '@mui/material'
 import './TableRow.module.scss'
+import { IRepo } from '../../interfaces/intefaces'
+import { formateDate } from '../../assets/formate-data'
 
-export default function TableRow() {
+interface IProps {
+    item: IRepo
+}
+
+export default function Row({ item }: IProps) {
     return (
-        <h1>Row</h1>
+        <TableRow key={item.id}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>{item.language}</TableCell>
+            <TableCell>{item.forks_count}</TableCell>
+            <TableCell>{item.stargazers_count}</TableCell>
+            <TableCell>{formateDate(item.updated_at)}</TableCell>
+        </TableRow>
     )
 }

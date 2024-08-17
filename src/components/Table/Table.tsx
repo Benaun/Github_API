@@ -1,15 +1,37 @@
+import { Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
 import './Table.module.scss'
+import { useAppSelector } from '../../store/store'
+import Row from '../TableRow/TableRow'
+import styles from './Table.module.scss'
 
-export default function Table() {
+export default function TableRepos() {
+
+  const { items, error } = useAppSelector(state => state.repos)
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Box width={"100%"} height={"100%"} padding={'20px'}>
+      <TableContainer className={styles.table_container}>
+        <Table stickyHeader size='small'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Название</TableCell>
+              <TableCell>Язык</TableCell>
+              <TableCell>Число форков</TableCell>
+              <TableCell>Число звезд</TableCell>
+              <TableCell>Дата обновления</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!error && <>
+                {items?.map(item => {
+                  return <Row item={item} />
+                })
+                }
+              </>
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   )
 }

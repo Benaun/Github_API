@@ -1,0 +1,46 @@
+.header {
+    width: 100%;
+    height: 80px;
+    background: #00838F;
+    padding: 19px 32px;
+}
+
+.form {
+    display: flex;
+    gap: 8px;
+}
+
+.input {
+    position: relative;
+    width: 64%;
+    height: 42px;
+    padding: 9px 16px;
+    font-size: 24px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: #F2F2F2;
+    
+    &:hover {
+        outline: none;
+    }
+
+}
+
+.btn {
+    padding: 8px 22px;
+    background: #2196F3;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+        background: #0281e9;
+    }
+}
+
+.close_btn {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-50% -50%);
+}
