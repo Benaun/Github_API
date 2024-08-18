@@ -17,7 +17,8 @@ export interface IReposList {
     items: IRepo[] | null, // список репозиториев
     loading?: boolean, // загрузка
     totalRepos: number, // колличество репозиториев 
-    error?: string | null // ошибка
+    error?: string | null, // ошибка
+    selectedRepos: number
 }
 
 export type Language = {

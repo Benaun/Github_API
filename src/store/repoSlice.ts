@@ -16,40 +16,31 @@ export const fetchRepos = createAsyncThunk<IRepo[], string, { rejectValue: strin
                 return rejectWithValue("Repositories not founded")
             }
 
-            const data: IRepo[] = await Promise.all(
-                response.data.items.map(async (item: IRepo) => {
-                    let languages
-                    try {
-                        const response = await axios.get(item.languages_url)
-                        languages = response.data
-                    } catch (err) {
-                        console.error('Failed to fetch', err)
-                    }
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        stargazers_count: item.stargazers_count,
-                        language: item.language,
-                        languages: languages,
-                        forks_count: item.forks_count, 
-                        updated_at: item.updated_at, 
-                        license: item.license,
-                    }
-                })
-            )
+            const data: IRepo[] = response.data.items.map((item: IRepo) => {
+                return {
+                    id: item.id,
+                    name: item.name,
+                    stargazers_count: item.stargazers_count,
+                    language: item.language,
+                    forks_count: item.forks_count,
+                    updated_at: item.updated_at,
+                    license: item.license,
+                }
+            })
             return data
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch(err) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
             return rejectWithValue("Ничего не найдено")
         }
     }
 )
 
-const initialState:IReposList = {
+const initialState: IReposList = {
     items: [],
     loading: false,
     error: null,
-    totalRepos: 0
+    totalRepos: 0,
+    selectedRepos: -1
 }
 
 const repoSlice = createSlice({
@@ -59,13 +50,18 @@ const repoSlice = createSlice({
         clearAll(state): void {
             state.items = [];
             state.error = null;
+            state.selectedRepos = -1
         },
+        selectItem(state, action): void {
+            state.selectedRepos = action.payload
+        }
     },
-    extraReducers:(builder) => {
+    extraReducers: (builder) => {
         builder
             .addCase(fetchRepos.pending, (state) => {
                 state.loading = true;
                 state.error = null;
+                state.selectedRepos = -1
             })
             .addCase(fetchRepos.fulfilled, (state, action) => {
                 state.items = action.payload;
@@ -74,5 +70,5 @@ const repoSlice = createSlice({
     }
 })
 
-export const { clearAll } = repoSlice.actions;
+export const { clearAll, selectItem } = repoSlice.actions;
 export default repoSlice.reducer
